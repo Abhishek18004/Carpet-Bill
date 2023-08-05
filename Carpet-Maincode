@@ -1,0 +1,103 @@
+// C Program that creates customer bills for a carpet company.
+
+#include <stdio.h>
+
+//function declarations
+void reading();
+float calculation(int *,int *,int *,float *);
+float instalprice(int,float);
+float subtotal(float,int,int);
+float total(float, int);
+void pmeasurements(int,int,int);
+void pcharges(int, float,float,int,float,float);
+
+//main function
+int main()
+{
+    reading();
+    return 0;
+}
+
+//taking input from user
+void reading()
+{
+    int l,w,d,ar;
+    float co_sq;
+    printf("Length of room (feet)?");
+    scanf("%d",&l);
+    printf("Width of room(feet)?");
+    scanf("%d",&w);
+    printf("Customer discount (percent)?");
+    scanf("%d",&d);
+    printf("Cost per square foot?");
+    scanf("%f",&co_sq);
+    ar=l*w;
+    calculation(&l,&w,&d,&co_sq);
+}
+
+//function for calculations
+float calculation(int * l, int * w, int * d, float * co_sq)
+{
+    int ar;
+    float inst,sub,tot;
+    ar=*l * *w;
+    inst=instalprice(ar, * co_sq);
+    sub=subtotal(inst, ar, * d);
+    tot=total(sub, ar);
+    pmeasurements(* l, * w, ar);
+    pcharges(ar,* co_sq, inst,* d, sub, tot);
+}
+
+//calculation of installation price
+float instalprice(int area, float cost)
+{
+    return cost*area+cost*28.35;
+}
+
+//calculation of subtotal price
+float subtotal(float inst,int ar, int d)
+{
+    return inst-(d*ar/100);
+}
+
+//calculation of total price
+float total(float subtot,int ar)
+{
+    return subtot+(8.5*ar/100);
+}
+
+//printing the measurements
+void pmeasurements(int length, int width, int area)
+{
+    printf("\n\t\t\t\t        MEASUREMENT\n"); 
+    printf("\t\t\t Length \t\t\t    %d feet\n",length);
+    printf("\t\t\t Width  \t\t\t    %d feet\n",width);
+    printf("\t\t\t Area   \t\t\t    %d feet\n",area);
+}
+
+//printing the charges
+void pcharges(int ar, float co, float inst, int d, float sub, float tot)
+{
+    //charges
+    printf("\n\t\t\t\t\t CHARGES\n \n");
+    printf("DESCRIPTION\t\t\t\tCOST/SQ.FT\t\t\t\tCHARGE\n");
+    printf("-----------\t\t\t\t----------\t\t\t\t-------\n");
+    printf("Carpet     \t\t\t\t%.2f        \t\t\t\tRs %.2f\n",co,co*ar);
+    printf("Labour     \t\t\t\t28.35     \t\t\t\tRs %.2f\n",28.35*ar);
+    printf("           \t\t\t\t          \t\t\t\t-------\n");
+    
+    //installed price
+    printf("INSTALLED PRICE\t\t\t\t    \t\t\t\t\tRs %.2f\n",inst);
+    printf("Discount   \t\t\t\t%d        \t\t\t\tRs %d \n",d,d*ar);
+    printf("           \t\t\t          \t\t\t\t\t-------\n");
+    
+    //subtotal
+    printf("SUBTOTAL       \t\t\t\t    \t\t\t\t\tRs %0.2f\n",sub);
+    printf("Tax            \t\t\t\t    \t\t\t\t\tRs %0.2f\n", 8.5*sub/100);
+    
+    //total
+    printf("TOTAL          \t\t\t\t    \t\t\t\t\tRs %0.2f\n",tot);
+}
+
+
+
